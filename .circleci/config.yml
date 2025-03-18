@@ -1,0 +1,19 @@
+version: 2.1
+
+jobs:
+  run-jmeter-tests:
+    docker:
+      - image: justb4/jmeter:latest  # Official JMeter Docker image
+    steps:
+      - checkout  # Clones your Git repository
+      - run:
+          name: Run JMeter Test
+          command: jmeter -n -t i360.jmx -l result.jtl  # Runs your JMeter script
+      - store_artifacts:
+          path: result.jtl  # Saves JMeter results
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - run-jmeter-tests
